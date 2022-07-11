@@ -16,7 +16,7 @@ on:
 jobs:
   build:
 
-    runs-on: self-hosted, linux
+    runs-on: self-hosted, Linux
     permissions:
       contents: read
       packages: write
