@@ -16,7 +16,7 @@ on:
 jobs:
   build:
 
-    runs-on: VidelaLinux
+    runs-on: Linux
     permissions:
       contents: read
       packages: write
