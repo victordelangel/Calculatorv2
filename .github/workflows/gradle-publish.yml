@@ -1,0 +1,64 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+# This workflow will build a package using Gradle and then publish it to GitHub packages when a release is created
+# For more information see: https://github.com/actions/setup-java/blob/main/docs/advanced-usage.md#Publishing-using-gradle
+
+name: Gradle Package
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build:
+
+    runs-on: Linux
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up JDK 11
+      uses: actions/setup-java@v3
+      with:
+        java-version: '11'
+        distribution: 'temurin'
+        server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
+        settings-path: ${{ github.workspace }} # location for the settings.xml file
+    - name: Change wrapper permissions
+      run: chmod +x ./gradlew
+    - name: Build with Gradle
+      uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
+      with:
+        arguments: build
+
+    - name: App Center
+      # You may pin to the exact commit or the version.
+      # uses: wzieba/AppCenter-Github-Action@650c903ea6a81c71e011b0a303ae555f2dbf76a0
+      uses: wzieba/AppCenter-Github-Action@v1.3.3
+      with:
+        # App name followed by username e.g. wzieba/Sample-App
+        appName: videla/CalculatorApp
+        # Upload token - you can get one from appcenter.ms/settings
+        token: 77086fa36b5af42235aad3dcd96968eaefc0ed35
+        # Distribution group
+        group: "Beta Testers"
+        # Artefact to upload (.apk or .ipa)
+        file: ${{ github.workspace }}/app/build/outputs/apk/debug/app-debug.apk
+        # Build version parameter required for .zip, .msi, .pkg and .dmg files
+        buildVersion: # optional
+        # Build number parameter required for macOS .pkg and .dmg files
+        buildNumber: # optional
+        # Release notes visible on release page
+        releaseNotes: # optional
+        # Generate release notes based on the latest git commit
+        gitReleaseNotes: # optional
+        # If true, send an email notification to the distribution group
+        notifyTesters: "true"
+        # If true, shows additional information from the action execution
+        debug: # optional
