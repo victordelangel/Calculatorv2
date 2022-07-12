@@ -59,6 +59,6 @@ jobs:
         # Generate release notes based on the latest git commit
         gitReleaseNotes: # optional
         # If true, send an email notification to the distribution group
-        notifyTesters: # optional
+        notifyTesters: "true"
         # If true, shows additional information from the action execution
         debug: # optional
