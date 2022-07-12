@@ -49,7 +49,7 @@ jobs:
         # Distribution group
         group: "Beta Testers"
         # Artefact to upload (.apk or .ipa)
-        file: ${{ github.workspace }}
+        file: ${{ github.workspace }}/app/build/outputs/apk/debug/app-debug.apk
         # Build version parameter required for .zip, .msi, .pkg and .dmg files
         buildVersion: # optional
         # Build number parameter required for macOS .pkg and .dmg files
